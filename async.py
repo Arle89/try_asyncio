@@ -1,6 +1,6 @@
 import asyncio
 import time
-import pika
+import pika, sys, os
 
 async def say_after(delay, what):
     await asyncio.sleep(delay)
@@ -8,11 +8,11 @@ async def say_after(delay, what):
 
 
 
-async def main():
+async def main1():
     print (f"started at : {time.strftime('%X')}")
 
-    task1 = asyncio.create_task(say_after(1, "hello"))
-    task2 = asyncio.create_task(say_after(2, "world"))
+    task1 = asyncio.create_task(say_after(2, "hello"))
+    task2 = asyncio.create_task(say_after(4, "world"))
 
 
     await task1
@@ -21,12 +21,4 @@ async def main():
     print (f"Finshed at : {time.strftime('%X')}")
 
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-channel = connection.channel()
-channel.queue_declare(queue = 'hello')
-channel.basic_publish(exchange='', routing_key='hello', body='Hello world!')
-print ('Hello world')
-connection.close()
-
-
-asyncio.run(main())
+asyncio.run(main1())
